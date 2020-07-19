@@ -17,19 +17,19 @@ export default function AddTransaction() {
                     Unit Price
                 </div>
                 <div>
-                    <input type="number"></input>
+                    <input type="number" onChange={(e)=>{setUnitPrice(e.target.value)}}></input>
                 </div>
                 <div>
                     Quantity
                 </div>
                 <div>
-                    <input type="number"></input>
+                    <input type="number" onChange={(e)=>{setQuant(e.target.value)}}></input>
                 </div>
                 <div>
                     Total value
                 </div>
                 <div>
-                    <input type="number" value={total} onChange={(e)=>{setTotal(e.target.value)}}></input>
+                    <input type="number" onChange={(e)=>{setTotal(e.target.value)}}></input>
                 </div>
                 <div>
                     Category:
