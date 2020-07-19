@@ -1,0 +1,5 @@
+.container{
+    display: grid;
+    grid-template-columns: 13% 20%;
+    grid-template-rows: 4vh 4vh 4vh 4vh 4vh;
+}

@@ -1,0 +1,10 @@
+.page-margins{
+    margin-left: 1%;
+    margin-right:1%;
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 7% 20%;
+    grid-template-rows: 4vh 4vh 4vh;
+}
