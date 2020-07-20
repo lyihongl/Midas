@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './css/create_acc.css'
 import './css/main.css'
 import Cookies from 'js-cookie'
+import APIServer from './EndPoint'
 
 function handleSubmit(event, username, email, password, password2) {
     var request = {
@@ -17,7 +18,7 @@ function handleSubmit(event, username, email, password, password2) {
         }),
         credentials: 'include'
     }
-    fetch("http://127.0.0.1:5000/api/create_acc", request)
+    fetch(APIServer+"/api/create_acc", request)
         .then(
             response => {
                 console.log(response);

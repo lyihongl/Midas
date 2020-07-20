@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './css/login.css'
 import './css/main.css'
 import Cookies from 'js-cookie'
+import APIServer from './EndPoint';
 
 function handleSubmit(event, username, password, setLoginState) {
 	//console.log(event, username, password)
@@ -17,7 +18,7 @@ function handleSubmit(event, username, password, setLoginState) {
 		}),
 		credentials: 'include'
 	}
-	fetch("http://127.0.0.1:5000/api/login", request)
+	fetch(APIServer+"/api/login", request)
 		.then(
 			response => {
 				console.log(response);

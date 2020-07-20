@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import APIServer from './EndPoint';
 
 export default function ViewData(){
     var request = {
@@ -8,7 +9,7 @@ export default function ViewData(){
     }
     useEffect(()=>{
         console.log(JSON.stringify(Cookies.get('token')))
-        fetch("http://127.0.0.1:5000/api/view_data?token="+JSON.stringify(Cookies.get('token')), request)
+        fetch(APIServer+"/api/view_data?token="+JSON.stringify(Cookies.get('token')), request)
     })
     return(
         <div>
