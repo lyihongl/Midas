@@ -18,7 +18,7 @@ function handleSubmit(event, username, password, setLoginState) {
 		}),
 		credentials: 'include'
 	}
-	fetch(APIServer+"/api/login", request)
+	fetch(APIServer + "/api/login", request)
 		.then(
 			response => {
 				console.log(response);
@@ -44,6 +44,34 @@ function handleSubmit(event, username, password, setLoginState) {
 export default function LoginForm() {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
+	useEffect(() => {
+		if (Cookies.get('token') != undefined) {
+			console.log("token check")
+			var request = {
+				method: "POST",
+				mode: "cors",
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',
+				}, body: JSON.stringify({
+					token: Cookies.get('token')
+				}),
+				credentials: 'include'
+			}
+			fetch(APIServer + "/api/validate_login", request)
+				.then(
+					response => {
+						return response.json()
+					}
+				)
+				.then((data) => {
+
+				})
+				.catch(e => {
+					console.log(e)
+				})
+		}
+	})
 	return (
 		<div class="page-margins">
 			<form class="container" onSubmit={(e) => { handleSubmit(e, username, password) }}>

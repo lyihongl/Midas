@@ -20,15 +20,33 @@ class DBInstance:
     def GetCursor(self):
         return self.conn.cursor()
 
-    def Query(self, query):
-        self.__buildSelectQuery(["UserID, ID"], ["Wow"])
-        pass
+    def ExecuteQuery(self, query, args):
+        cursor = self.conn.cursor(buffered=True)
+        print(query, args)
+        cursor.execute(query, args)
+        #self.conn.cursor(buffered=True).execute(query, args)
+        if("select" not in query.lower()):
+            self.conn.commit()
+            return self.conn.cursor()
+        else:
+            print("here")
+            return cursor.fetchall()
+
+        #print(self.conn.cursor())
+        #for i in self.conn.cursor():
+            #print("db: ", i)
+
+    def CloseInstance(self):
+        self.conn.close()
+
+    def InitFromDict(dict):
+        return DBInstance(dict["user"], dict["pw"], dict["db"], dict["host"])
     
-    def __buildSelectQuery(self, columns, where):
+    def BuildSelectQuery(table, columns, where_cols):
         query = "SELECT "
-        
         query += ",".join(columns)
-
-        query+=" from "+self.database
-
+        query += " from "+table
+        cols = ["where "+i+"=%s" for i in where_cols]
+        cols = " and ".join(cols)
+        query+= " "+cols
         return(query)
