@@ -37,7 +37,7 @@ export default function AddTransaction() {
         setTotal(unitPrice * quant)
     })
     useEffect(() => {
-        console.log(category)
+        //console.log(category)
         if (category === "Other") {
             document.getElementById("other-field").style.display = "inline"
         } else {

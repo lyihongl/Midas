@@ -1,4 +1,3 @@
-#import utils.db as db
 import bcrypt
 import data.users_model as users_model
 

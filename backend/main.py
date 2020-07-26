@@ -10,15 +10,15 @@ from utils.validate_token import ValidateToken
 import json
 from flask_cors import CORS, cross_origin
 
-cors = CORS(app, origins="127.0.0.1", supports_credentials=True)
+cors = CORS(app, origins="127.0.0.1:3000", supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-if __name__ == "main":
-    with open('utils/.env', 'r') as env:
-        sql_data = json.loads(env.read())
-    #print(sql_data)
-    #sql_instance = DBInstance(sql_data["user"], sql_data["pw"], sql_data["db"], sql_data["host"])
-    sql_instance = DBInstance.InitFromDict(sql_data)
+#if __name__ == "main":
+#    with open('utils/.env', 'r') as env:
+#        sql_data = json.loads(env.read())
+#    #print(sql_data)
+#    #sql_instance = DBInstance(sql_data["user"], sql_data["pw"], sql_data["db"], sql_data["host"])
+#    sql_instance = DBInstance.InitFromDict(sql_data)
     #cursor = sql_instance.conn.cursor()
     #print(sql_instance.conn)
     #rows = cursor.execute("select * from users")
@@ -38,7 +38,7 @@ def login():
     if request.method == 'POST':
         creds = request.json
         print(creds['username'])
-        return Login(creds['username'], creds['password'], sql_instance)
+        return Login(creds['username'], creds['password'])
     return jsonify(r"{'ok':'ok'}")
 
 @app.route('/api/validate_login', methods=['POST'])
@@ -47,15 +47,14 @@ def validate_login():
     if request.method == 'POST':
         creds = request.json
         print(creds)
-        ValidateToken(creds['token'], 'secret')
-        #return Login(creds['username'], creds['password'], sql_instance)
+        return ValidateToken(creds['token'], 'secret')
     return jsonify(r"{'ok':'ok'}")
 
 @app.route('/api/create_acc', methods=['POST'])
 @cross_origin(origin="127.0.0.1", supports_credentials=True, headers=['Content-Type'])
 def create_acc():
     creds = request.json
-    CreateAcc(creds['username'], creds['email'], creds['password'], sql_instance)
+    CreateAcc(creds['username'], creds['email'], creds['password'])
     print(creds)
     return jsonify(r"{'ok':'ok'}")
 

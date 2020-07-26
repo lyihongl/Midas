@@ -32,6 +32,7 @@ function handleSubmit(event, username, password, setLoginState) {
 				//Cookies.set(JSON.parse(atob(Cookies.get("token").split('.')[1])))
 				console.log(JSON.parse(atob(Cookies.get("token"))))
 				//setLoginState(1)
+				setLoginState("a")
 			} else {
 				//setLoginState(0)
 			}
@@ -39,14 +40,19 @@ function handleSubmit(event, username, password, setLoginState) {
 			console.log(e)
 		});
 	event.preventDefault()
+	//window.location.reload(true)
 }
 
 export default function LoginForm() {
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
+	const [loggedIn, setLoggedIn] = useState("")
+	const [refresh, setRefresh] = useState("")
 	useEffect(() => {
+		document.getElementById("logged-in").style.display = "none"
+		console.log("cookies", Cookies.get('token'))
 		if (Cookies.get('token') != undefined) {
-			console.log("token check")
+			//console.log("token check")
 			var request = {
 				method: "POST",
 				mode: "cors",
@@ -65,32 +71,45 @@ export default function LoginForm() {
 					}
 				)
 				.then((data) => {
-
+					if (data['valid']) {
+						setLoggedIn(data['username'])
+						document.getElementById("not-logged-in").style.display = "none"
+						document.getElementById("logged-in").style.display = "inline"
+					} else {
+						setLoggedIn("")
+						document.getElementById("logged-in").style.display = "none"
+					}
 				})
 				.catch(e => {
 					console.log(e)
 				})
 		}
-	})
+	}, [refresh])
 	return (
 		<div class="page-margins">
-			<form class="container" onSubmit={(e) => { handleSubmit(e, username, password) }}>
-				<div>
-					Username:
+			<div id="not-logged-in">
+				<form class="container" onSubmit={(e) => { handleSubmit(e, username, password, setRefresh)}}>
+					<div>
+						Username:
 					</div>
-				<div>
-					<input class="page-margins" type="text" onChange={(e) => { setUsername(e.target.value) }}></input>
-				</div>
-				<div>
-					Password:
+					<div>
+						<input class="page-margins" type="text" onChange={(e) => { setUsername(e.target.value) }}></input>
 					</div>
-				<div>
-					<input class="page-margins" type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
-				</div>
-				<div>
-					<input type="submit"></input>
-				</div>
-			</form>
+					<div>
+						Password:
+					</div>
+					<div>
+						<input class="page-margins" type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
+					</div>
+					<div>
+						<input type="submit"></input>
+					</div>
+				</form>
+			</div>
+			<div id="logged-in">
+				Welcome {loggedIn}
+			</div>
 		</div>
 	);
+
 }

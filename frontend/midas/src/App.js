@@ -32,10 +32,6 @@ function pageControl(page) {
 
 function App() {
 	const [page, setPage] = useState("add_transact")
-	const [loginState, setLoginState] = useState(false)
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
-	const [email, setEmail] = useState('')
 	useEffect(() => {
 		var links = document.getElementsByClassName('navbar-link')
 		for(var i = 0; i<links.length; i++){

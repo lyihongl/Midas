@@ -22,14 +22,3 @@ def SelectUser(select_col, where_col, where_val):
     print("query",query)
     result = sql_inst.ExecuteQuery(query, where_val)
     return result
-    #print(cursor)
-    #for i in cursor:
-        #print("i",i)
-    
-
-    #print(query)
-    #query = "select * from users where "
-    #cols = ["where "+i+"=%s" for i in where_col]
-    #cols = " and ".join(cols)
-    #sql_inst.ExecuteQuery(query, where_val)
-
