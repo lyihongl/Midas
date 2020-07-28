@@ -12,7 +12,7 @@ def Login(u, p):
     if (password == bcrypt.hashpw(p[0].encode('utf-8'), password.encode('utf-8')).decode('utf-8')):
 
         token = jwt.encode({'username':username, 'userid':userid}, 'secret', algorithm='HS256')
-        response = make_response({'ok':'ok'})
+        response = make_response({'username':usr})
         response.set_cookie('token', token)
         return response
     else:
