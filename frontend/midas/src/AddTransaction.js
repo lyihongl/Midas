@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 //import './css/login.css'
 import Cookies from 'js-cookie';
+import APIServer from './EndPoint';
 
 function validateTransaction(unitPrice, quant, total, category, other) {
-
+    // check that either (unitPrice and quant) or total has been filled, if other, then other
+    return "valid"
 }
 
 function submitTransaction(unitPrice, quant, total, category, other) {
@@ -17,11 +19,26 @@ function submitTransaction(unitPrice, quant, total, category, other) {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: {
-                token: Cookies.get('token')
-            },
-            credentials:'include'
+            body: JSON.stringify({
+                token: Cookies.get('token'),
+                unitPrice: unitPrice,
+                quant: quant,
+                total: total,
+                category: category,
+                other: other
+            }),
+            credentials: 'include'
         }
+        fetch(APIServer + "/api/add_transaction", request)
+            .then(
+                response => {
+                    console.log(response)
+                    return response.json()
+                }
+            )
+            .then((data) => {
+
+            })
     }
     return validate
 }
@@ -84,7 +101,7 @@ export default function AddTransaction() {
                         Other:
                     </div>
                     <div>
-                        <input type="text" onChange={(e) => { setOther(e.target.value) }}></input>
+                        <input type="text" value="nothing" onChange={(e) => { setOther(e.target.value) }}></input>
                     </div>
                 </div>
                 <div>
