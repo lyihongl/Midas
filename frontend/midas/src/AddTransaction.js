@@ -37,8 +37,13 @@ function submitTransaction(unitPrice, quant, total, category, other) {
                 }
             )
             .then((data) => {
-
-            })
+							//console.log(data)
+							if(data['ok'] === 'no-login'){
+								alert("not logged in")
+							} else if (data['ok'] === 'error'){
+								alert("the server encountered an error and could not process your request")
+							}
+            }) 
     }
     return validate
 }
@@ -64,31 +69,36 @@ export default function AddTransaction() {
 
     return (
         <div class="page-margins">
-            <form onSubmit={() => { submitTransaction(unitPrice, quant, total, category, other) }}>
+					<form onSubmit={(e) => {e.preventDefault();
+						setUnitPrice(0); 
+						setQuant(0); 
+						setTotal(0); 
+						setCategory(""); 
+						submitTransaction(unitPrice, quant, total, category, other) }}>
                 <div>
                     Unit Price
                 </div>
                 <div>
-                    <input type="number" onChange={(e) => { setUnitPrice(e.target.value) }} step=".01"></input>
+                    <input type="number" value={unitPrice} onChange={(e) => { setUnitPrice(e.target.value) }} step=".01"></input>
                 </div>
                 <div>
                     Quantity
                 </div>
                 <div>
-                    <input type="number" onChange={(e) => { setQuant(e.target.value) }} step=".01"></input>
+                    <input type="number" value={quant} onChange={(e) => { setQuant(e.target.value) }} step=".01"></input>
                 </div>
                 <div>
                     Total value
                 </div>
                 <div>
-                    <input type="number" onChange={(e) => { setTotal(e.target.value) }} step=".01"></input>
+                    <input type="number" value={total} onChange={(e) => { setTotal(e.target.value) }} step=".01"></input>
                 </div>
                 <div>
                     Category:
                 </div>
                 <div>
-                    <select id="category" name="category" onChange={(e) => { setCategory(e.target.value) }}>
-                        <option value="" disabled selected>Select category</option>
+                    <select id="category" value={category} name="category" onChange={(e) => { setCategory(e.target.value) }}>
+                        <option value="" >Select category</option>
                         <option value="Food">Food</option>
                         <option value="Toiletries">Toiletries</option>
                         <option value="Clothes">Clothes</option>
@@ -101,7 +111,7 @@ export default function AddTransaction() {
                         Other:
                     </div>
                     <div>
-                        <input type="text" value="nothing" onChange={(e) => { setOther(e.target.value) }}></input>
+                        <input type="text" value={other} onChange={(e) => { setOther(e.target.value) }}></input>
                     </div>
                 </div>
                 <div>

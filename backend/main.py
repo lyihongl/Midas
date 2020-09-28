@@ -7,7 +7,7 @@ from api.login import Login
 from api.create_acc import CreateAcc
 from api.add_transact import AddTransact
 from utils.db import DBInstance
-from utils.validate_token import ValidateToken
+from utils.validate_token import ValidateToken, ValidateToken_SS
 import json
 from flask_cors import CORS, cross_origin
 
@@ -65,10 +65,23 @@ def view_data():
     print(request.args.get('token'))
     return jsonify({'ok':'ok'})
 
-@app.route('/api/add_transaction', methods=['POST'])
+@app.route('/api/add_transaction', methods=['POST','OPTIONS'])
 @cross_origin(origin="127.0.0.1", supports_credentials=True, headers=['Content-Type'])
 def add_transaction():
     # user, unit_p, quant, total_val, category
-    print(request.json)
-    AddTransact(None, None, None, None, None)
+    #print("what")
+    print("request json",request.json)
+    try:
+        token = request.json['token']
+        validate_token = ValidateToken_SS(token, 'secret')
+        if(validate_token['valid']):
+            print("Token validated")
+            AddTransact(validate_token['userid'], request.json['unitPrice'], request.json['quant'], request.json['total'], request.json['category'], request.json['other'])
+        else:
+            return jsonify({'ok':'no-login'})
+    except Exception as e:
+        if(str(e) == "'token'"):
+            return jsonify({'ok':'no-login'})
+        else:
+            return jsonify({'ok':'error'})
     return jsonify({'ok':'ok'})

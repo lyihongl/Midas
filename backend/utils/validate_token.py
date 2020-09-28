@@ -13,3 +13,11 @@ def ValidateToken(payload, secret):
             })
     else:
         return make_response({'valid': False})
+
+def ValidateToken_SS(payload, secret):
+    token = jwt.decode(payload, secret, algorithms=['HS256'])
+    (username) = users_model.SelectUser(["username"], ["id"], [token['userid']])[0][0]
+    if(username == token['username']):
+        return { 'valid': True, 'username':username, 'userid':token['userid'] }
+    else:
+        return {'valid': False}

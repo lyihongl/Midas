@@ -22,14 +22,14 @@ class DBInstance:
 
     def ExecuteQuery(self, query, args):
         cursor = self.conn.cursor(buffered=True)
-        print(query, args)
+        #print(query, args)
         cursor.execute(query, args)
         #self.conn.cursor(buffered=True).execute(query, args)
         if("select" not in query.lower()):
             self.conn.commit()
             return self.conn.cursor()
         else:
-            print("here")
+            #print("here")
             return cursor.fetchall()
 
         #print(self.conn.cursor())
